@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+    <div>
+        <h1>TodoList</h1>
+        <select id="todo_list" onchange="detail()">
+        
+        </select>
+        <h1>TodoDetail</h1>
+        <ul id="todo_detail">
+        
+        </ul>
+        </div>
+<script>
+
+function fetchData(){
+
+const apiUrl = "https://jsonplaceholder.typicode.com/todos";
+
+try{
+
+fetch(apiUrl)
+.then(response=>{
+const responseJson = response.json();
+return responseJson;
+
+})
+.then(data=>{
+let option = "<option>Select</option>";
+data.forEach((element) => {
+ option+= `<option value="${element.id}"">${element.title}</option>`;
+
+    
+});
+document.getElementById("todo_list").innerHTML = option;
+
+})
+
+}
+catch(error){
+
+console.log(error);
+}
+
+}
+fetchData();
+
+
+function detail(){
+    //const selectElement = event.target;
+    //const id = selectElement.value;
+    const id = document.getElementById("todo_list").value;
+
+const detailurl = `https://jsonplaceholder.typicode.com/todos/${id}`;
+
+try{
+
+fetch(detailurl)
+.then(response=>{
+
+const responseJson = response.json();
+return responseJson
+
+})
+.then(data=>{
+    let todoDetail = `<li>Id = ${data.id}</li>
+    <li>userId = ${data.userId}</li>
+    <li>userTitle =${data.title}</li>`;
+//console.log(data.title);
+document.getElementById("todo_detail").innerHTML = todoDetail;
+
+
+})
+
+}
+catch(error){
+
+console.log(error);
+}
+
+}
+
+</script>
+</body>
+</html>
